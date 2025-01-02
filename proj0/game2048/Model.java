@@ -149,8 +149,9 @@ public class Model extends Observable {
                 Tile t = this.board.tile(col, row);
                 if(row>0&&t!=null&&board.tile(col, row-1)!=null) {
                     if(t.value() == board.tile(col, row-1).value()) {
-                        moveTo(col,row,board.tile(col, row-1));
-                        score += 2*t.value();
+                        board.move(col,row,board.tile(col, row-1));
+                        score += board.tile(col, row).value();
+                        moved = true;
                     }
                 }
             }

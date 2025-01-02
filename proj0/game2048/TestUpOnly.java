@@ -38,14 +38,14 @@ public class TestUpOnly extends TestUtils {
     /** A basic merge. */
     public void testUpBasicMerge() {
         int[][] before = new int[][] {
-                {0, 0, 0, 0},
                 {0, 0, 2, 0},
                 {0, 0, 2, 0},
-                {0, 0, 0, 0},
+                {0, 0, 2, 0},
+                {0, 0, 2, 0},
         };
         int[][] after = new int[][] {
                 {0, 0, 4, 0},
-                {0, 0, 0, 0},
+                {0, 0, 4, 0},
                 {0, 0, 0, 0},
                 {0, 0, 0, 0},
         };
