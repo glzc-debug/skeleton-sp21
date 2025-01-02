@@ -16,6 +16,7 @@ public class Model extends Observable {
     private int maxScore;
     /** True iff game is ended. */
     private boolean gameOver;
+    private boolean moved;
 
     /* Coordinate System: column C, row R of the board (where row 0,
      * column 0 is the lower-left corner of the board) will correspond
@@ -108,6 +109,7 @@ public class Model extends Observable {
      * */
     public boolean tilt(Side side) {
         boolean changed;
+        moved = false;
         changed = false;
 
         // TODO: Modify this.board (and perhaps this.score) to account
@@ -121,11 +123,12 @@ public class Model extends Observable {
                     Tile t = this.board.tile(col, row);
                     if(board.tile(col, row)!=null)
                     {
-                        moveTo(col,row,t);
+                        moveTo(col,row,t,0);
                     }
-                    changed = true;
                 }
             }
+
+            changed = moved;
 
 
 
@@ -137,36 +140,47 @@ public class Model extends Observable {
         return changed;
     }
 
-    private void moveTo(int col, int row,Tile t)
+    private void moveTo(int currentCol, int currentRow,Tile t,int count)
     {
-        if(row==3)
+        if(currentRow==3&&count!=0)
         {
-            board.move(col, row, t);
+            board.move(currentCol, currentRow, t);
+            moved = true;
             return;
         }
-        if(row>3)
+        if(currentRow==3&&count==0)
+        {
+            return;
+        }
+        if(currentCol>3)
         {
             return;
         }
 
-        if(board.tile(col, row+1)!=null)
+
+        if(board.tile(currentCol, currentRow+1)!=null)
         {
-            if(board.tile(col, row+1).value()!=t.value())
+            if(board.tile(currentCol, currentRow+1).value()!=t.value())
             {
-                board.move(col, row, t);
+                board.move(currentCol, currentRow, t);
+                if(count!=0)
+                {
+                    moved = true;
+                }
                 return;
             }
             else
             {
-                board.move(col, row+1, t);
-                score += board.tile(col, row+1).value();
+                board.move(currentCol, currentRow+1, t);
+                score += board.tile(currentCol, currentRow+1).value();
+                moved = true;
                 return;
             }
 
         }
         else
         {
-            moveTo(col,row+1,t);
+            moveTo(currentCol,currentRow+1,t,count+1);
         }
     }
 
