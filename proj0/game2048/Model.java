@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author chi zhang
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -113,12 +113,61 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+
+
+            for(int col = 0; col < board.size(); col+=1) {
+                for(int row = 3;row >= 0; row-=1) {
+                    Tile t = this.board.tile(col, row);
+                    if(board.tile(col, row)!=null)
+                    {
+                        moveTo(col,row,t);
+                    }
+                    changed = true;
+                }
+            }
+
+
 
         checkGameOver();
         if (changed) {
             setChanged();
         }
+        board.setViewingPerspective(Side.NORTH);
         return changed;
+    }
+
+    private void moveTo(int col, int row,Tile t)
+    {
+        if(row==3)
+        {
+            board.move(col, row, t);
+            return;
+        }
+        if(row>3)
+        {
+            return;
+        }
+
+        if(board.tile(col, row+1)!=null)
+        {
+            if(board.tile(col, row+1).value()!=t.value())
+            {
+                board.move(col, row, t);
+                return;
+            }
+            else
+            {
+                board.move(col, row+1, t);
+                score += board.tile(col, row+1).value();
+                return;
+            }
+
+        }
+        else
+        {
+            moveTo(col,row+1,t);
+        }
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -138,6 +187,13 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int length = b.size();
+        for (int col = 0; col < length; col++) {
+            for (int row = 0; row < length; row++) {
+                if (b.tile(col,row) == null)
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -148,6 +204,14 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        int length = b.size();
+        for (int col = 0; col < length; col++) {
+            for (int row = 0; row < length; row++) {
+                if(b.tile(col,row) != null)
+                    if(b.tile(col,row).value() == MAX_PIECE)
+                        return true;
+            }
+        }
         return false;
     }
 
@@ -159,6 +223,107 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        int length = b.size();
+        int limit = length - 1;
+        if (emptySpaceExists(b))
+        {
+            return true;
+        }
+        else
+        {
+            for (int col = 0; col < length; col++) {
+                for (int row = 0; row < length; row++) {
+                    /*corner*/
+                    /*left bottom*/
+                    if(col==0&&row==0)/*col:0,row:0*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col+1,row).value()/*right*/
+                                ||b.tile(col,row).value() == b.tile(col,row+1).value()/*up*/)
+                        {return true;}
+                    }
+
+                    /*right bottom*/
+                    else if(col==limit&&row==0)/*3,0*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col-1,row).value()/*left*/
+                                ||b.tile(col,row).value() == b.tile(col,row+1).value()/*up*/)
+                        {return true;}
+                    }
+
+                    /*left top*/
+                    else if(col==0&&row==limit)/*0,3*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col+1,row).value()/*right*/
+                                ||b.tile(col,row).value() == b.tile(col,row-1).value()/*down*/)
+                        {return true;}
+                    }
+
+                    /*right top*/
+                    else if(col==limit&&row==limit)/*3,3*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col-1,row).value()/*left*/
+                                ||b.tile(col,row).value() == b.tile(col,row-1).value()/*down*/)
+                        {return true;}
+                    }
+                    /*corner*/
+
+
+
+                    /*line*/
+                    /*bottom*/
+                    if(row==0&&(col>0&&col<limit))/*1~2,0*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col-1,row).value()/*left*/
+                                ||b.tile(col,row).value() == b.tile(col+1,row).value()/*right*/
+                                ||b.tile(col,row).value() == b.tile(col,row+1).value()/*up*/)
+                        {return true;}
+                    }
+
+                    /*right*/
+                    if(col==limit&&(row>0&&row<limit))/*3,1~2*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col-1,row).value()/*left*/
+                                ||b.tile(col,row).value() == b.tile(col,row-1).value()/*down*/
+                                ||b.tile(col,row).value() == b.tile(col,row+1).value()/*up*/)
+                        {return true;}
+                    }
+
+                    /*top*/
+                    if(row==3&&(col>0&&col<limit))/*1~2,3*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col-1,row).value()/*left*/
+                                ||b.tile(col,row).value() == b.tile(col,row-1).value()/*down*/
+                                ||b.tile(col,row).value() == b.tile(col+1,row).value()/*right*/)
+                        {return true;}
+                    }
+
+                    /*left*/
+                    if(col==0&&(row>0&&row<limit))/*0,1~2*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col,row+1).value()/*up*/
+                                ||b.tile(col,row).value() == b.tile(col,row-1).value()/*down*/
+                                ||b.tile(col,row).value() == b.tile(col+1,row).value()/*right*/)
+                        {return true;}
+                    }
+                    /*line*/
+
+
+
+                    /*common*/
+                    if((row>0&&row<limit)&&(col>0&&col<limit))/*1~2,1~2*/
+                    {
+                        if(b.tile(col,row).value() == b.tile(col,row+1).value()/*up*/
+                                ||b.tile(col,row).value() == b.tile(col,row-1).value()/*down*/
+                                ||b.tile(col,row).value() == b.tile(col+1,row).value()/*right*/
+                                ||b.tile(col,row).value() == b.tile(col-1,row).value()/*left*/)
+                        {return true;}
+                    }
+                    /*common*/
+                }
+            }
+
+        }
+        if (maxTileExists(b)){return false;}
         return false;
     }
 
