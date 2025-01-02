@@ -118,18 +118,10 @@ public class Model extends Observable {
         board.setViewingPerspective(side);
 
 
-            for(int col = 0; col < board.size(); col+=1) {
-                for(int row = 3;row >= 0; row-=1) {
-                    Tile t = this.board.tile(col, row);
-                    if(board.tile(col, row)!=null)
-                    {
-                        moveTo(col,row,t,0);
-                    }
-                }
-            }
-
-            changed = moved;
-
+        Move();
+        Merge();
+        Move();
+        changed = moved;
 
 
         checkGameOver();
@@ -140,47 +132,44 @@ public class Model extends Observable {
         return changed;
     }
 
-    private void moveTo(int currentCol, int currentRow,Tile t,int count)
-    {
-        if(currentRow==3&&count!=0)
-        {
-            board.move(currentCol, currentRow, t);
-            moved = true;
-            return;
-        }
-        if(currentRow==3&&count==0)
-        {
-            return;
-        }
-        if(currentCol>3)
-        {
-            return;
-        }
-
-
-        if(board.tile(currentCol, currentRow+1)!=null)
-        {
-            if(board.tile(currentCol, currentRow+1).value()!=t.value())
-            {
-                board.move(currentCol, currentRow, t);
-                if(count!=0)
-                {
-                    moved = true;
+    private void Move() {
+        for(int col = 0; col < board.size(); col+=1) {
+            for(int row = 3;row >= 0; row-=1) {
+                Tile t = this.board.tile(col, row);
+                if(t!=null) {
+                    moveTo(col,row,t);
                 }
-                return;
             }
-            else
-            {
-                board.move(currentCol, currentRow+1, t);
-                score += board.tile(currentCol, currentRow+1).value();
-                moved = true;
-                return;
-            }
-
         }
-        else
+    }
+
+    private void Merge() {
+        for(int col = 0; col < board.size(); col+=1) {
+            for(int row = 3;row >= 0; row-=1) {
+                Tile t = this.board.tile(col, row);
+                if(row>0&&t!=null&&board.tile(col, row-1)!=null) {
+                    if(t.value() == board.tile(col, row-1).value()) {
+                        moveTo(col,row,board.tile(col, row-1));
+                    }
+                }
+            }
+        }
+    }
+
+    private void moveTo(int currentCol, int currentRow,Tile t) {
+        int nullTile = 0;
+        for(int row = 3;row > currentRow; row-=1)
         {
-            moveTo(currentCol,currentRow+1,t,count+1);
+            if(board.tile(currentCol, row) == null)
+            {
+                nullTile++;
+            }
+        }
+
+        board.move(currentCol, currentRow+nullTile,t);
+        if(nullTile!=0)
+        {
+            moved = true;
         }
     }
 
