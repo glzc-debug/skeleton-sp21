@@ -7,13 +7,12 @@ package DebugExercise;
 public class DebugExercise2 {
     /** Returns the max of a and b. Do not step into this function. */
     public static int max(int a, int b) {
-        int w = (b - a) >> 31;
+        int w = (a - b) >> 31;
         /* If you're stepping into this function, click the
            step out button because you're not going to learn anything. */
-        int z = ~(b - a) >> 31;
+        int z = ~(a - b) >> 31;
 
-        int max = b & w | a & z;
-        return max;
+        return b & w | a & z;
     }
 
 
@@ -47,6 +46,7 @@ public class DebugExercise2 {
         int[] returnArray = new int[a.length];
         for (int i = 0; i < a.length; i += 1) {
             int biggerValue = max(a[i], b[i]);
+            int tmp = max(2, 1);
             returnArray[i] = biggerValue;
         }
 
@@ -58,7 +58,7 @@ public class DebugExercise2 {
         int i = 0;
         int sum = 0;
         while (i < x.length) {
-            sum = sum + add(sum, x[i]);
+            sum = sum + x[i];
             i = i + 1;
         }
         return sum;
@@ -68,6 +68,7 @@ public class DebugExercise2 {
      *  For example if a = {2, 0, 10, 14} and b = {-5, 5, 20, 30},
      *  the result should be 57.
      * */
+    //{2 5 20 30}
     public static int sumOfElementwiseMaxes(int[] a, int[] b) {
         int[] maxes = arrayMax(a, b);
         int sumofMaxes = arraySum(maxes);
@@ -78,6 +79,7 @@ public class DebugExercise2 {
     public static void main(String[] args) {
         int[] a = {1, 11, -1, -11};
         int[] b = {3, -3, 2, -1};
+        //{3 11 2 -1} = 15
 
         int sumOfElementwiseMaxes = sumOfElementwiseMaxes(a, b);
         System.out.println(sumOfElementwiseMaxes);
