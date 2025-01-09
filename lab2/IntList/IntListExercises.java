@@ -38,12 +38,8 @@ public class IntListExercises {
     /** Returns the max value in the IntList starting at L. */
     public static int max(IntList L) {
         int max = L.first;
-        IntList p = L;
+        IntList p = L.rest;
         while (p != null) {
-            p = p.rest;
-            if(p == null) {
-                break;
-            }
             if (p.first > max) {
                 max = p.first;
             }
