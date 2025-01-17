@@ -50,8 +50,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size++;
     }
 
-    private void resize(int Size) {
-        T[] tmp = (T[]) new Object[Size * 2];
+    private void resize(int sizeTmp) {
+        T[] tmp = (T[]) new Object[sizeTmp * 2];
         for (int i = 0; i < size; i++) {
             tmp[i] = items[i];
         }

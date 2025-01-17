@@ -25,7 +25,7 @@ public class RandomizedTests {
                 int sizeL = L.size();
                 int sizeB = buggy.size();
                 assertEquals(buggy.size(), L.size());
-            } else if (L.size() > 0&& buggy.size() > 0&& operationNumber == 2) {
+            } else if (L.size() > 0 && buggy.size() > 0 && operationNumber == 2) {
                 //removeLast
                 assertEquals(buggy.size(), L.size());
                 assertEquals(buggy.removeLast(), L.removeLast());

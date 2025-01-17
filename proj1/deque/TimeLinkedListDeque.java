@@ -37,11 +37,11 @@ public class TimeLinkedListDeque {
     }
 
     public static Double addTests(int up) {
-        LinkedListDeque<Integer> List = new LinkedListDeque<>();
+        LinkedListDeque<Integer> list = new LinkedListDeque<>();
         Stopwatch sw = new Stopwatch();
         Double time;
         for (int i = 0; i < up; i++) {
-            List.addLast(i);
+            list.addLast(i);
         }
         time = sw.elapsedTime();
         return time;

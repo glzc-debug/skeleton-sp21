@@ -24,12 +24,6 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         size = 0;
     }
 
-    public LinkedListDeque(T x) { //completed
-        guard = new Node(null, null, null);
-        guard.next = new Node(x, null, guard);
-        size++;
-    }
-
     @Override
     public void addFirst(T item) { //completed
         if (guard.next == null) {
