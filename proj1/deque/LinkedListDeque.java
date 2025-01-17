@@ -27,16 +27,20 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void addFirst(T item) { //completed
         if (guard.next == null) {
-            guard.next = new Node(item, null, guard);
+            guard.next = new Node(item, null, null);
             guard.next.next = guard.next;
             guard.next.previous = guard.next;
             size++;
             return;
         }
 
-        Node tmp = new Node(item, guard.next, guard);
+        Node previousFirst = guard.next;
+        Node Last = previousFirst.previous;
+        Node tmp = new Node(item, guard.next, guard.next);
         guard.next = tmp;
-        tmp.next.previous = tmp;
+        previousFirst.previous = tmp;
+        tmp.previous = Last;
+        Last.next = tmp;
         size++;
         return;
     }

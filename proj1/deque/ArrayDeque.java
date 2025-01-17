@@ -5,53 +5,38 @@ import java.util.Iterator;
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private int size;
-    private T[] items;
+    public T[] items;
 
     public ArrayDeque() {
-        items = null;
-    }
-
-
-    public ArrayDeque(T x) {
         items = (T[]) new Object[8];
-        items[0] = x;
-        size++;
+        size = 0;
     }
 
     @Override
     public void addFirst(T item) { //completed
-        if (items == null) {
-            items = (T[]) new Object[8];
-            items[0] = item;
-        } else {
-            if (items.length == size) {
-                resize(size);
-            }
-            for (int i = size; i > 0; i--) {
-                items[i] = items[i - 1];
-            }
-            items[0] = item;
+        if (items.length == size) {
+            resize(size * 2);
         }
+        for (int i = size; i > 0; i--) {
+            items[i] = items[i - 1];
+        }
+        items[0] = item;
+
         size++;
     }
 
     @Override
     /**最后一个总是size-1*/
     public void addLast(T item) { //completed
-        if (items == null) {
-            items = (T[]) new Object[8];
-            items[0] = item;
-        } else {
-            if (items.length == size) {
-                resize(size);
-            }
-            items[size] = item;
+        if (items.length == size) {
+            resize(size * 2);
         }
+        items[size] = item;
         size++;
     }
 
     private void resize(int sizeTmp) {
-        T[] tmp = (T[]) new Object[sizeTmp * 2];
+        T[] tmp = (T[]) new Object[sizeTmp];
         for (int i = 0; i < size; i++) {
             tmp[i] = items[i];
         }
@@ -60,7 +45,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public boolean isEmpty() { //completed
-        return items == null;
+        return items[0] == null;
     }
 
     @Override
@@ -77,46 +62,34 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T removeFirst() { //completed
-        if (items == null) {
+        if (items[0] == null) {
             return null;
         } else {
             T missingT = items[0];
             items[0] = null;
-            if (size == 1) {
-                items = null;
-                size--;
-                return missingT;
-            } else {
-                for (int i = 0; i < size - 1; i++) {
-                    items[i] = items[i + 1];
-                }
-                if (size < items.length / 4 && size > 4) {
-                    resize(size);
-                }
-                size--;
-                return missingT;
+            for (int i = 0; i < size - 1; i++) {
+                items[i] = items[i + 1];
             }
+            if (size < items.length / 4 && size > 4) {
+                resize(size);
+            }
+            size--;
+            return missingT;
         }
     }
 
     @Override
     public T removeLast() { //completed
-        if (items == null) {
+        if (items[0] == null) {
             return null;
         } else {
             T missingT = items[size - 1];
-            if (size == 1) {
-                items = null;
-                size--;
-                return missingT;
-            } else {
-                items[size - 1] = null;
-                if (size < items.length / 4) {
-                    resize(size);
-                }
-                size--;
-                return missingT;
+            items[size - 1] = null;
+            if (size < items.length / 4) {
+                resize(size);
             }
+            size--;
+            return missingT;
         }
     }
 

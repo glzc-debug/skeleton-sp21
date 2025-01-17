@@ -124,4 +124,21 @@ public class LinkedListDequeTest {
 
 
     }
+
+    @Test
+    public void addFirstTest() {
+        LinkedListDeque<Double>  lld2 = new LinkedListDeque<Double>();
+        lld2.addFirst(3.14159);
+        lld2.addFirst(4.0);
+        lld2.addFirst(5.0);
+        lld2.addFirst(6.0);
+        lld2.addFirst(7.0);
+
+        ArrayDeque<Double>  lld1 = new ArrayDeque<>();
+        lld1.addFirst(3.14159);
+        lld1.addFirst(4.0);
+        lld1.addFirst(5.0);
+        lld1.addFirst(6.0);
+        lld1.addFirst(7.0);
+    }
 }
