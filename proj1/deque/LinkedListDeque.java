@@ -2,13 +2,13 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pineapple>{
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
-        public pineapple item;
-        public Node previous;
-        public Node next;
+        private T item;
+        private Node previous;
+        private Node next;
 
-        public Node(pineapple i, Node n, Node p) {
+        Node(T i, Node n, Node p) {
             item = i;
             next = n;
             previous = p;
@@ -19,19 +19,19 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
     private Node guard;
 
 
-    public LinkedListDeque() {//completed
+    public LinkedListDeque() { //completed
         guard = new Node(null, null, null);
         size = 0;
     }
 
-    public LinkedListDeque(pineapple x) {//completed
+    public LinkedListDeque(T x) { //completed
         guard = new Node(null, null, null);
         guard.next = new Node(x, null, guard);
         size++;
     }
 
     @Override
-    public void addFirst(pineapple item) {//completed
+    public void addFirst(T item) { //completed
         if (guard.next == null) {
             guard.next = new Node(item, null, guard);
             guard.next.next = guard.next;
@@ -48,7 +48,7 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
     }
 
     @Override
-    public void addLast(pineapple item) {//completed
+    public void addLast(T item) { //completed
         if (guard.next == null) {
             guard.next = new Node(item, null, guard);
             guard.next.next = guard.next;
@@ -65,24 +65,24 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
     }
 
     @Override
-    public boolean isEmpty() {//completed
-        return guard.next==null;
+    public boolean isEmpty() { //completed
+        return guard.next == null;
     }
 
     @Override
-    public int size() {//completed
+    public int size() { //completed
         return size;
     }
 
     @Override
-    public void printDeque() {//completed
-        if(guard.next == null) {
+    public void printDeque() { //completed
+        if (guard.next == null) {
             System.out.println("null");
             return;
         }
 
         Node pointer = guard;
-        for(int i =0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             pointer = pointer.next;
             System.out.print(pointer.item + " ");
         }
@@ -90,15 +90,15 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
     }
 
     @Override
-    public pineapple removeFirst() {//completed
-        if(guard.next == null) {
+    public T removeFirst() { //completed
+        if (guard.next == null) {
             return null;
         }
 
         Node previousFirst = guard.next;
         Node last = previousFirst.previous;
         Node newFirst = previousFirst.next;
-        pineapple missingPineapple = previousFirst.item;
+        T missingT = previousFirst.item;
 
         guard.next = newFirst;
         newFirst.previous = last;
@@ -110,19 +110,19 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
             guard.next = null;
         }
 
-        return missingPineapple;
+        return missingT;
     }
 
     @Override
-    public pineapple removeLast() {//completed
-        if(guard.next == null) {
+    public T removeLast() { //completed
+        if (guard.next == null) {
             return null;
         }
 
         Node first = guard.next;
         Node previousLast = first.previous;
         Node newLast = previousLast.previous;
-        pineapple missingPineapple = previousLast.item;
+        T missingT = previousLast.item;
 
         first.previous = newLast;
         newLast.next = first;
@@ -133,30 +133,30 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
             guard.next = null;
         }
 
-        return missingPineapple;
+        return missingT;
     }
 
     @Override
-    public pineapple get(int index) {//completed
+    public T get(int index) { //completed
         if (index > size || guard.next == null) {
             return null;
         }
 
         Node pointer = guard;
-        for(int i = 0; i <= index; i++) {
+        for (int i = 0; i <= index; i++) {
             pointer = pointer.next;
         }
 
         return pointer.item;
     }
 
-    public pineapple getRecursive(int distance) {//
+    public T getRecursive(int distance) { //
         Node pointer = guard.next;
         Node targetNode = findNode(distance, pointer);
         return targetNode.item;
     }
 
-    private Node findNode(int distance,Node pointer) {
+    private Node findNode(int distance, Node pointer) {
         if (distance > size || guard.next == null) {
             return null;
         }
@@ -170,11 +170,11 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
         return findNode(distance - 1, pointer);
     }
 
-    private class LinkedListDequeIterator implements Iterator<pineapple> {//completed
+    private class LinkedListDequeIterator implements Iterator<T> { //completed
 
         private int wizPos;
 
-        public LinkedListDequeIterator() {
+        LinkedListDequeIterator() {
             wizPos = 0;
         }
 
@@ -184,21 +184,21 @@ public class LinkedListDeque<pineapple> implements Deque<pineapple>, Iterable<pi
         }
 
         @Override
-        public pineapple next() {
-            pineapple returnItem = get(wizPos);
+        public T next() {
+            T returnItem = get(wizPos);
             wizPos++;
             return returnItem;
         }
     }
 
-    public Iterator<pineapple> iterator() {//completed
+    public Iterator<T> iterator() { //completed
         return new LinkedListDequeIterator();
     }
 
     @Override
-    public boolean equals(Object o) {//completed
-        LinkedListDeque<pineapple> tmp = (LinkedListDeque<pineapple>)o;
-        if(size != tmp.size()) {
+    public boolean equals(Object o) { //completed
+        LinkedListDeque<T> tmp = (LinkedListDeque<T>) o;
+        if (size != tmp.size()) {
             return false;
         }
 

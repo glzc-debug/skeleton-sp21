@@ -2,26 +2,26 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<pineapple> implements Deque<pineapple>, Iterable<pineapple> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
-    public int size;
-    public pineapple[] items;
+    private int size;
+    private T[] items;
 
     public ArrayDeque() {
         items = null;
     }
 
 
-    public ArrayDeque(pineapple x) {
-        items = (pineapple[]) new Object[8];
+    public ArrayDeque(T x) {
+        items = (T[]) new Object[8];
         items[0] = x;
         size++;
     }
 
     @Override
-    public void addFirst(pineapple item) {//completed
+    public void addFirst(T item) { //completed
         if (items == null) {
-            items = (pineapple[]) new Object[8];
+            items = (T[]) new Object[8];
             items[0] = item;
         } else {
             if (items.length == size) {
@@ -37,9 +37,9 @@ public class ArrayDeque<pineapple> implements Deque<pineapple>, Iterable<pineapp
 
     @Override
     /**最后一个总是size-1*/
-    public void addLast(pineapple item) {//completed
+    public void addLast(T item) { //completed
         if (items == null) {
-            items = (pineapple[]) new Object[8];
+            items = (T[]) new Object[8];
             items[0] = item;
         } else {
             if (items.length == size) {
@@ -50,8 +50,8 @@ public class ArrayDeque<pineapple> implements Deque<pineapple>, Iterable<pineapp
         size++;
     }
 
-    private void resize(int size) {
-        pineapple[] tmp = (pineapple[]) new Object[size * 2];
+    private void resize(int Size) {
+        T[] tmp = (T[]) new Object[Size * 2];
         for (int i = 0; i < size; i++) {
             tmp[i] = items[i];
         }
@@ -59,80 +59,80 @@ public class ArrayDeque<pineapple> implements Deque<pineapple>, Iterable<pineapp
     }
 
     @Override
-    public boolean isEmpty() {//completed
+    public boolean isEmpty() { //completed
         return items == null;
     }
 
     @Override
-    public int size() {//completed
+    public int size() { //completed
         return size;
     }
 
     @Override
-    public void printDeque() {//completed
+    public void printDeque() { //completed
         for (int i = 0; i < size; i++) {
             System.out.print(items[i] + " ");
         }
     }
 
     @Override
-    public pineapple removeFirst() {//completed
+    public T removeFirst() { //completed
         if (items == null) {
             return null;
         } else {
-            pineapple missingPineapple = items[0];
+            T missingT = items[0];
             items[0] = null;
             if (size == 1) {
                 items = null;
                 size--;
-                return missingPineapple;
+                return missingT;
             } else {
                 for (int i = 0; i < size - 1; i++) {
                     items[i] = items[i + 1];
                 }
-                if (size < items.length/4 && size > 4) {
+                if (size < items.length / 4 && size > 4) {
                     resize(size);
                 }
                 size--;
-                return missingPineapple;
+                return missingT;
             }
         }
     }
 
     @Override
-    public pineapple removeLast() {//completed
+    public T removeLast() { //completed
         if (items == null) {
             return null;
         } else {
-            pineapple missingPineapple = items[size - 1];
+            T missingT = items[size - 1];
             if (size == 1) {
                 items = null;
                 size--;
-                return missingPineapple;
+                return missingT;
             } else {
                 items[size - 1] = null;
-                if (size < items.length/4) {
+                if (size < items.length / 4) {
                     resize(size);
                 }
                 size--;
-                return missingPineapple;
+                return missingT;
             }
         }
     }
 
     @Override
-    public pineapple get(int index) {//completed
+    public T get(int index) { //completed
         if (index >= size || index < 0) {
             return null;
         }
         return items[index];
     }
 
-    private class ArrayDequeIterator implements Iterator<pineapple> {
+    private class ArrayDequeIterator implements Iterator<T> {
 
         private int wizPos;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             wizPos = 0;
         }
 
@@ -142,20 +142,20 @@ public class ArrayDeque<pineapple> implements Deque<pineapple>, Iterable<pineapp
         }
 
         @Override
-        public pineapple next() {
-            pineapple returnItem = get(wizPos);
+        public T next() {
+            T returnItem = get(wizPos);
             wizPos++;
             return returnItem;
         }
     }
 
-    public Iterator<pineapple> iterator() {//completed
+    public Iterator<T> iterator() { //completed
         return new ArrayDequeIterator();
     }
 
     @Override
-    public boolean equals(Object o) {//completed
-        ArrayDeque<pineapple> tmp = (ArrayDeque<pineapple>) o;
+    public boolean equals(Object o) { //completed
+        ArrayDeque<T> tmp = (ArrayDeque<T>) o;
         if (this.size != tmp.size) {
             return false;
         }
