@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private int size;
-    public T[] items;
+    private T[] items;
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
@@ -15,7 +15,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void addFirst(T item) { //completed
         if (items.length == size) {
-            resize(size * 2);
+            resize((int)(size * 1.5));
         }
         for (int i = size; i > 0; i--) {
             items[i] = items[i - 1];
@@ -29,7 +29,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**最后一个总是size-1*/
     public void addLast(T item) { //completed
         if (items.length == size) {
-            resize(size * 2);
+            resize((int)(size * 1.5));
         }
         items[size] = item;
         size++;
@@ -41,11 +41,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             tmp[i] = items[i];
         }
         items = tmp;
-    }
-
-    @Override
-    public boolean isEmpty() { //completed
-        return items[0] == null;
     }
 
     @Override

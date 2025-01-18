@@ -42,7 +42,8 @@ public class RandomizedTests {
                 L.addFirst(randVal);
                 buggy.addFirst(randVal);
                 int randVal2 = StdRandom.uniform(0, L.size());
-                System.out.println(i + " " + operationNumber + " " + randVal + " " + randVal2 + " " + L.size() + " " + buggy.size());
+                System.out.println(i + " " + operationNumber + " "
+                        + randVal + " " + randVal2 + " " + L.size() + " " + buggy.size());
                 assertEquals(buggy.size(), L.size());
                 assertEquals(buggy.get(randVal2), L.get(randVal2));
             }

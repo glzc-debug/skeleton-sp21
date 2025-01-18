@@ -35,12 +35,12 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         Node previousFirst = guard.next;
-        Node Last = previousFirst.previous;
+        Node last = previousFirst.previous;
         Node tmp = new Node(item, guard.next, guard.next);
         guard.next = tmp;
         previousFirst.previous = tmp;
-        tmp.previous = Last;
-        Last.next = tmp;
+        tmp.previous = last;
+        last.next = tmp;
         size++;
         return;
     }
@@ -60,11 +60,6 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         guard.next.previous = tmp;
         size++;
         return;
-    }
-
-    @Override
-    public boolean isEmpty() { //completed
-        return guard.next == null;
     }
 
     @Override
@@ -195,17 +190,25 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public boolean equals(Object o) { //completed
+        if (o == null) {
+            return false;
+        }
+        if (o.getClass() != this.getClass()) {
+            return false;
+        }
         LinkedListDeque<T> tmp = (LinkedListDeque<T>) o;
         if (size != tmp.size()) {
             return false;
         }
+        if (size == 0) {
+            return true;
+        }
 
-        Node pointer = guard.next;
         for (int i = 0; i < size; i++) {
             if (this.get(i) != tmp.get(i)) {
                 return false;
             }
         }
-        return  true;
+        return true;
     }
 }
