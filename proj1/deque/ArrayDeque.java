@@ -15,7 +15,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void addFirst(T item) { //completed
         if (items.length == size) {
-            resize((int)(size * 1.5));
+            resize(size * 2);
         }
         for (int i = size; i > 0; i--) {
             items[i] = items[i - 1];
@@ -29,7 +29,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**最后一个总是size-1*/
     public void addLast(T item) { //completed
         if (items.length == size) {
-            resize((int)(size * 1.5));
+            resize(size * 2);
         }
         items[size] = item;
         size++;
@@ -58,6 +58,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public T removeFirst() { //completed
         if (items[0] == null) {
+            if (size < items.length / 4 && size > 4) {
+                resize(size);
+            }
             return null;
         } else {
             T missingT = items[0];
@@ -76,6 +79,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public T removeLast() { //completed
         if (items[0] == null) {
+            if (size < items.length / 4 && size > 4) {
+                resize(size);
+            }
             return null;
         } else {
             T missingT = items[size - 1];
@@ -123,19 +129,21 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public boolean equals(Object o) { //completed
-        ArrayDeque<T> tmp = (ArrayDeque<T>) o;
-        if (this.size != tmp.size) {
+        if (o == null) {
             return false;
         }
-
-        for (int i = 0; i < size; i++) {
-            if (items[i] != tmp.items[i]) {
+        if (o.getClass() == this.getClass()) {
+            ArrayDeque<T> tmp = (ArrayDeque<T>) o;
+            if (this.size != tmp.size()) {
                 return false;
             }
-        }
 
+            for (int i = 0; i < size; i++) {
+                if (items[i] != tmp.items[i]) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
-
-
 }
