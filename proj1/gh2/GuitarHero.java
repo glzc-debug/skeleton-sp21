@@ -4,7 +4,6 @@ import edu.princeton.cs.algs4.StdDraw;
 
 public class GuitarHero {
     public static final double CONCERT_A = 440.0;
-    public static final double CONCERT_C = CONCERT_A * Math.pow(2, 3.0 / 12.0);
     static GuitarString[] strings = new GuitarString[37];
 
     public static void main(String[] args) {
@@ -21,10 +20,11 @@ public class GuitarHero {
             /* check if the user has typed a key; if so, process it */
             if (StdDraw.hasNextKeyTyped()) {
                 char key = StdDraw.nextKeyTyped();
-                if (keyboard.indexOf(key) > 36 || keyboard.indexOf(key) < 0) {
+                int stringIndex = keyboard.indexOf(key);
+                if (stringIndex > 36 || stringIndex < 0) {
                     continue;
                 }
-                strings[keyboard.indexOf(key)].pluck();
+                strings[stringIndex].pluck();
             }
 
             /* compute the superposition of samples */
