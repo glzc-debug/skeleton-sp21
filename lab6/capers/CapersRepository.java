@@ -46,10 +46,9 @@ public class CapersRepository {
      * @param text String of the text to be appended to the story
      */
     public static void writeStory(String text) throws IOException {
-        File story = new File(Utils.join(CAPERS_FOLDER, "story"), "story.txt");
+        File story = Utils.join(CAPERS_FOLDER, "story");
         String tmp;
         if (!story.exists()) {
-            story.createNewFile();
             tmp = text;
         } else {
             tmp = Utils.readContentsAsString(story) + "\n" + text;
